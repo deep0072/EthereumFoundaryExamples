@@ -18,4 +18,11 @@ contract ContractTest is Test {
         assertEq(value, 21);
         emit log_named_int("testGetCount", value); // to get the value in cmd terminal then run forge test -vv
     }
+
+    function testGetDecrement() public {
+        counter.decerementCount();
+        int256 value = counter.getCount();
+        assertEq(value, 19);
+        emit log_named_int("testgetcount", value);
+    }
 }
