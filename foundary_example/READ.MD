@@ -3,10 +3,7 @@
 ### Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust. it is a toolkit for building decentralized applications.it consist of testing framework like Hardhat, truffle and Dapptools.
  <br>
  <br>
- <br>
- <br>
- <br>
- <br>
+ 
 
 
  ## how to download foundary with forge library
@@ -31,31 +28,24 @@
  </li>
  <br>
  <br>
- <br>
- <br>
- <br>
- <br>
+
 
 
  ## file structure 
  <br>
- <br>
- <br>
+
 
 #### it has src folder which contains main solidity code
 <br>
-<br> 
+ 
 
 #### 
-<br>
 <br> 
 
 #### it has test folder which contains test solidity code by running the each code that is import in it
 
 
 
-<br>
-<br>
 <br>
 
 
