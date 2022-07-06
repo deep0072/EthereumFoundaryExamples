@@ -16,6 +16,6 @@ contract ContractTest is Test {
         counter.incrementCount();
         int256 value = counter.getCount();
         assertEq(value, 21);
-        emit log_named_int("testGetCount", value); // to get the value in the test log then run forge test -vv
+        emit log_named_int("testGetCount", value); // to get the value in cmd terminal then run forge test -vv
     }
 }
