@@ -32,10 +32,7 @@
 
 
  ## file structure 
- <br>
-
-
-#### it has src folder which contains main solidity code
+ #### it has src folder which contains main solidity code
  
 #### it has test folder which contains test solidity code by running the each code that is import in it
 
