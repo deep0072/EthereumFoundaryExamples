@@ -36,6 +36,8 @@
  
 #### it has test folder which contains test solidity code by running the each code that is import in it
 
+#### script folder from this folder we will deploy our code on onchain or on local node
+
 
 
 <br>
@@ -49,6 +51,26 @@
 #### then we can run the code in test folder using "forge build"
 
 #### test folder import code from src folder
+
+<br>
+
+## start local None
+
+### if you want to deploy smartcontract in local network you need to start local node using "anvil" command.
+
+#### after running of node. deploy the smartcontract that is present in src/nameOfcontract from script folder by using command
+#### this below given command will not actual deploy the contract. it will just give the idea how much gas fee will be used to deploy this contract
+
+<li>forge script script/filename.sol:smartcontractname --fork-url http://localhost:8545 --private-key "jksfhwjfo2iu8r947yr9o3n5v3t9ng2" </li>
+<br>
+
+#### if we want to deploy the contract then add --broadcast flage in the end
+
+<li> forge scriipt script/filename.sol:ContractScript --fork-url http://localhost:8545 --private-key jdhsikfhowp;sjf;wifjpwofjhwfow --broadcast
+
+
+### call deployed contract
+<li>cast call "contractaddress"</li> 
 
 
 
