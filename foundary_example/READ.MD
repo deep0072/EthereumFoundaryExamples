@@ -36,12 +36,7 @@
 
 
 #### it has src folder which contains main solidity code
-<br>
  
-
-#### 
-<br> 
-
 #### it has test folder which contains test solidity code by running the each code that is import in it
 
 
@@ -57,6 +52,9 @@
 #### then we can run the code in test folder using "forge build"
 
 #### test folder import code from src folder
+
+
+
 
 
 
