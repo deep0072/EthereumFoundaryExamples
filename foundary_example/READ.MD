@@ -69,9 +69,12 @@
 <li> forge scriipt script/filename.sol:ContractScript --fork-url http://localhost:8545 --private-key jdhsikfhowp;sjf;wifjpwofjhwfow --broadcast
 
 
-### call deployed contract
-<li>cast call "contractaddress"</li> 
+### call deployed contract with function that dont cost guess fee
+<li>cast call contractaddress "function to call()(type of output)"</li> 
+<br>
 
+### if we want to call that function that cost some guess fee. we will use command. cast send always use when some data is updated in smartcontract
+<li> cast send addressofcontract "functionwewanttocall()" --private-key
 
 
 
