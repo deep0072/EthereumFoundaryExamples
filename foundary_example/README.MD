@@ -76,6 +76,8 @@
 ### if we want to call that function that cost some guess fee. we will use command. cast send always use when some data is updated in smartcontract
 <li> cast send addressofcontract "functionwewanttocall()" --private-key
 
+### this is used to call the function when contract are deployed onchain 
+cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rpc_url
 
 
 
