@@ -40,6 +40,10 @@ now create a new project with forge init "projectname"
 
 <br>
 
+## to compile code
+
+#### forge compile ==> will generate abi also
+
 ## how to run and test code
 
 #### to run the code in test we first create ABI using "forge build" that will compile our code and generate ABI file
@@ -56,12 +60,16 @@ now create a new project with forge init "projectname"
 
 #### after running of node. deploy the smartcontract that is present in src/nameOfcontract from script folder by using command
 
-#### this below given command will not actual deploy the contract. it will just give the idea how much gas fee will be used to deploy this contract
+## deploy contract directly from src folder using 
+
+#### ```forge create SimpleStorage --rpc-url localhost:8545 --interactive``` it will ask for private key
+
+## If we have script to deploye contract then use this below given command will not actual deploy the contract. it will just give the idea how much gas fee will be used to deploy this contract
 
 <li>forge script script/filename.sol:smartcontractname --fork-url http://localhost:8545 --private-key "jksfhwjfo2iu8r947yr9o3n5v3t9ng2" </li>
 <br>
 
-#### if we want to deploy the contract then add --broadcast flage in the end
+#### if we want to deploy the contract then add --broadcast flag in the end
 
 <li> forge script script/filename.sol:ContractScript --fork-url http://localhost:8545 --private-key jdhsikfhowp;sjf;wifjpwofjhwfow --broadcast
 
