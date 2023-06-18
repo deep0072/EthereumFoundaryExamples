@@ -5,6 +5,13 @@
 ### Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust. it is a toolkit for building decentralized applications.it consist of testing framework like Hardhat, truffle and Dapptools.
 
  <br>
+
+ ## foundry provide three tools
+ ### forge ==> used to deploy,compile and format the code
+
+ ### cast ==> it also used to interact with contract that have been already deployed
+
+ ### anvil ==> to spin up the local blockchain, forking the mainnet etc.
  <br>
 
 ## how to download foundary with forge library
@@ -71,7 +78,7 @@ now create a new project with forge init "projectname"
 
 #### if we want to deploy the contract then add --broadcast flag in the end
 
-<li> forge script script/filename.sol:ContractScript --fork-url http://localhost:8545 --private-key jdhsikfhowp;sjf;wifjpwofjhwfow --broadcast
+<li> forge script script/filename.sol:ContractScript --fork-url http://localhost:8545 --private-key jdhsikfhowp;sjf;wifjpwofjhwfow --broadcast --private-key anyPrivateKey
 
 ### call deployed contract with function that dont cost gas fee
 
@@ -89,3 +96,8 @@ cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rp
 ### to override the chain id during forking mainnet use this. block number need to mention is required
 
 <li> anvil --fork-url mainnet --fork-chain-id 1337 --fork-block-number 17194050 </li>r
+
+
+## format the soldiity code
+
+### run ```forge fmt``` in terminal 
