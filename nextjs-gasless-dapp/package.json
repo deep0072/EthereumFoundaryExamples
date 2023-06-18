@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "moralis-v1": "^1.13.0",
+    "react-moralis": "^1.4.2"
+  }
+}
