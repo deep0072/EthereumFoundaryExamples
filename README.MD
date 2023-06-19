@@ -93,6 +93,10 @@ now create a new project with forge init "projectname"
 
 cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rpc_url
 
+### convert hex to decimal using cast
+
+### ``` cast --to-base 0x00000000000000000000000000000000000000000000000000000000000001ca dec```
+
 ### to override the chain id during forking mainnet use this. block number need to mention is required
 
 <li> anvil --fork-url mainnet --fork-chain-id 1337 --fork-block-number 17194050 </li>r
