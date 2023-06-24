@@ -53,9 +53,10 @@ now create a new project with forge init "projectname"
 
 ## how to run and test code
 
-#### to run the code in test we first create ABI using "forge build" that will compile our code and generate ABI file
+### when we run forge test. foundry then let run anvil the local chain default after execution anvil stop the chain.
+#### to run the code in the test we first create ABI using "forge build" which will compile our code and generate ABI file
 
-#### then we can run the code in test folder using "forge build"
+#### Then we can run the code in the test folder using "forge build"
 
 #### test folder import code from src folder
 
