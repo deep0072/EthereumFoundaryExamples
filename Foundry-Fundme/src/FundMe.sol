@@ -53,9 +53,7 @@ contract FundMe {
 
         funders = new address[](0);
 
-        (bool success, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool success,) = payable(msg.sender).call{value: address(this).balance}("");
 
         require(success, "txn failed");
     }
