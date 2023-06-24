@@ -18,6 +18,7 @@ library PriceConverter {
         returns (uint256)
     {
         uint256 price = getPrice();
+
         uint256 ethPriceUsd = (price * amountOfEth) / 1e18;
         return ethPriceUsd;
     }

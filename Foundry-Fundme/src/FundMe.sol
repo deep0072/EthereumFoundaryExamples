@@ -1,18 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
+
 import "./priceConverter.sol";
+
 error Not_Sufficient_Amount();
 error UnAuthorised();
 
 contract FundMe {
     using PriceConverter for uint256;
-    uint256 minimumAmount = 5e18;
+
+    uint256 public constant MINIMUM_USD = 5e18;
 
     address[] public funders;
 
-    mapping(address => uint) public amountToFunded;
+    mapping(address => uint256) public amountToFunded;
 
-    address owner;
+    address public owner;
 
     constructor(address _owner) {
         owner = _owner;
@@ -26,7 +29,7 @@ contract FundMe {
     }
 
     function fund() public payable {
-        if (msg.value.conversionRate() < minimumAmount) {
+        if (msg.value.conversionRate() < MINIMUM_USD) {
             revert Not_Sufficient_Amount();
         }
 
