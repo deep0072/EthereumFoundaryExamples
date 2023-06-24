@@ -15,10 +15,12 @@ contract FundMe {
 
     mapping(address => uint256) public amountToFunded;
 
-    address public owner;
+    address public immutable owner;
+    AggregatorV3Interface private s_priceFeed;
 
-    constructor(address _owner) {
-        owner = _owner;
+    constructor(address priceFeed) {
+        owner = msg.sender;
+        s_priceFeed = AggregatorV3Interface(priceFeed);
     }
 
     modifier onlyOwner() {
@@ -28,8 +30,14 @@ contract FundMe {
         _;
     }
 
+    function getVersion() public view returns (uint256) {
+        uint256 version = s_priceFeed.version();
+
+        return version;
+    }
+
     function fund() public payable {
-        if (msg.value.conversionRate() < MINIMUM_USD) {
+        if (msg.value.conversionRate(s_priceFeed) < MINIMUM_USD) {
             revert Not_Sufficient_Amount();
         }
 
