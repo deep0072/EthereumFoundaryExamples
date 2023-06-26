@@ -12,7 +12,7 @@ import {Script} from "forge-std/Script.sol";
 
 contract HelperConfig is Script {
     uint8 constant DECIMAL = 8;
-    int256 constant INTIAL_PRICE = 2e8;
+    int256 constant INTIAL_PRICE = 2000e8;
 
     struct NetworkConfig {
         address priceFeedAddress;
