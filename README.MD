@@ -106,3 +106,16 @@ cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rp
 ## format the soldiity code
 
 ### run ```forge fmt``` in terminal 
+
+
+<br>
+
+# foundry cheatcodes
+
+### vm.prank(user) ==> used to set msg.sender all line below this will be execute by the address it self
+
+### vm.expectRevert() ==> this cheatcode used for failed test condition. just write the code for failing condtion then that code succeeded without the error.
+
+### vm.deal(user, balanceOf eth) ==> used to provide eth balance  to the address.
+
+### vm.startBroadcast() ==> this is used to deploy the contract on chain.
