@@ -119,3 +119,8 @@ cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rp
 ### vm.deal(user, balanceOf eth) ==> used to provide eth balance  to the address.
 
 ### vm.startBroadcast() ==> this is used to deploy the contract on chain.
+
+### hoax(addressOF ,eth_amount) ==> it works both of vm.prank and vm.deal
+
+
+### vm.txGasPrice(gasPrice); ==> it is used to set gasPrice. by default anvil set the gas price to zero.
