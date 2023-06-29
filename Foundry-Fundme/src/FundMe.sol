@@ -48,22 +48,24 @@ contract FundMe {
     }
 
     function withDraw() public onlyOwner {
-        for (
-            uint256 funderIndex;
-            funderIndex < s_funders.length;
-            funderIndex++
-        ) {
-            address funder = s_funders[funderIndex];
+        uint256 fundersLength = s_funders.length;
+        address[] memory funders = s_funders;
+
+        for (uint256 funderIndex; funderIndex < fundersLength; funderIndex++) {
+            address funder = funders[funderIndex];
             s_amountToFunded[funder] = 0;
         }
 
         s_funders = new address[](0);
 
-        (bool success, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool success,) =
+            payable(msg.sender).call{value: address(this).balance}("");
 
         require(success, "txn failed");
+    }
+
+    receive() external payable {
+        fund();
     }
 
     function getAddressAmountToFunded(address _funder)
@@ -87,7 +89,7 @@ contract FundMe {
         return ethPriceUsd;
     }
 
-    receive() external payable {
-        fund();
+    function getOwner() public view returns (address) {
+        return s_owner;
     }
 }
