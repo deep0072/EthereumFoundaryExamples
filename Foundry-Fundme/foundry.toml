@@ -3,6 +3,6 @@ src = "src"
 out = "out"
 libs = ["lib"]
 remappings = ["@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/"]
-ffi = true  # it means we are allowing foundry to run terminal commands in our machine or pc
+ffi = true  # it means we are allowing foundry to run terminal commands in our machine or pc it should be set to false bydefault
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
