@@ -20,10 +20,13 @@ contract InteractionsTest is Test {
     }
 
     function testUserCanFund() public {
+        // get the instance of "FundFundMe" contract
         FundFundMe fundFundme = new FundFundMe();
 
+        // and the call the fundfundme function lets us help to fund the contract
         fundFundme.fundfundMe(address(fundMe));
 
+        // get the instance of "WithdrawFundMe" contract
         WithdrawFundMe withdrawfundMe = new WithdrawFundMe();
         withdrawfundMe.withdrawFundMe(address(fundMe));
 
