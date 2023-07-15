@@ -6,6 +6,7 @@ import {Script} from "forge-std/Script.sol";
 import {Raffle} from "../src/Raffle.sol";
 
 import {HelperConfig} from "./HelperConfig.s.sol";
+import {CreateSubcriptonIdScript} from "./CreateSubscriptionId.s.sol";
 
 contract RaffleContractDeployScript is Script {
     function run() external returns (Raffle, HelperConfig) {
@@ -19,6 +20,11 @@ contract RaffleContractDeployScript is Script {
             bytes32 gasLane,
             uint32 callbackGasLimit
         ) = helperConfig.activateNetworkConfig();
+
+        if (subscriptionId == 0) {
+            CreateSubcriptonIdScript subscription = new CreateSubcriptonIdScript();
+            subscriptionId = subscription.createSubId(vrfCordinator);
+        }
 
         vm.startBroadcast();
 
