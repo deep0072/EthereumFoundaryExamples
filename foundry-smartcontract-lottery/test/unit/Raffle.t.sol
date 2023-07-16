@@ -83,4 +83,15 @@ contract RaffleTest is Test {
 
         raffle.enterRaffle{value: 0.34 ether}();
     }
+
+    ////////////////////////////////
+    // test Upkeep ////////////////
+    ////////////////////////////////
+    function testcheckUpkeepReturnsFalseIfItHasNoBalance() public {
+        // first advance the time of block using vm.warp
+        vm.warp(block.timestamp + interval + 1);
+
+        (bool upKeppNeeded, ) = raffle.checkUpkeep("");
+        assert(!upKeppNeeded);
+    }
 }
