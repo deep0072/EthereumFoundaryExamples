@@ -1,10 +1,18 @@
 // SPDX-License-Identifier: MIT License
 
+/*
+ * @title Create Subscription
+ * @author Deepak
+ * @notice this contract is for to generat subscription id
+ * @dev Implements chainlink vrfV2
+ */
+
 pragma solidity ^0.8.19;
 
 import {Script, console} from "forge-std/Script.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
 import {VRFCoordinatorV2Mock} from "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
+import {LinkToken} from "test/mocks/LinkToken.sol";
 
 contract CreateSubcriptonIdScript is Script {
     // first get the vrfCordinator address from helper config
@@ -13,7 +21,7 @@ contract CreateSubcriptonIdScript is Script {
     function createSubscriptionId() public returns (uint64) {
         HelperConfig helperConfig = new HelperConfig();
 
-        (, , address vrfCordinator, , , ) = helperConfig
+        (, , address vrfCordinator, , , , ) = helperConfig
             .activateNetworkConfig();
 
         return createSubId(vrfCordinator);
@@ -30,5 +38,59 @@ contract CreateSubcriptonIdScript is Script {
 
     function run() external returns (uint64) {
         createSubscriptionId();
+    }
+}
+
+/*
+ * @title Fund Subscription
+ * @author Deepak
+ * @notice this contract is for to fund the Subscription
+ * @dev Implements chainlink vrfV2 and used fundSubscription function to fund the subscription
+ */
+contract FundSubscription is Script {
+    uint96 public constant FUND_AMOUNT = 3 ether;
+
+    function fundSubscriptionUsinfConfig() public {
+        // first get the vrf contract address which helps us to use the fundSubscription
+        // get sub id
+        // also get the chainLink token address to fund the link to subscription
+        HelperConfig helperConfig = new HelperConfig();
+        (
+            ,
+            ,
+            address vrfCordinator,
+            uint64 subId,
+            ,
+            ,
+            address link
+        ) = helperConfig.activateNetworkConfig();
+
+        fundSubscription(vrfCordinator, subId, link);
+    }
+
+    function fundSubscription(
+        address vrfCordinator,
+        uint64 subId,
+        address link
+    ) public {
+        if (block.chainid == 31337) {
+            vm.startBroadcast();
+            VRFCoordinatorV2Mock(vrfCordinator).fundSubscription(
+                subId,
+                FUND_AMOUNT
+            );
+            vm.stopBroadcast();
+        } else {
+            vm.startBroadcast();
+            LinkToken(link).transferAndCall(
+                vrfCordinator,
+                FUND_AMOUNT,
+                abi.encode(subId)
+            );
+        }
+    }
+
+    function run() external {
+        fundSubscriptionUsinfConfig();
     }
 }

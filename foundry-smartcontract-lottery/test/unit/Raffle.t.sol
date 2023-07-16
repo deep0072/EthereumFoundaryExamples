@@ -16,6 +16,7 @@ contract RaffleTest is Test {
     uint64 subscriptionId;
     bytes32 gasLane;
     uint32 callbackGasLimit;
+    address link;
 
     address Player = makeAddr("Deepak");
 
@@ -25,8 +26,15 @@ contract RaffleTest is Test {
         RaffleContractDeployScript raffleDeployScript = new RaffleContractDeployScript();
         (raffle, helperConfig) = raffleDeployScript.run();
 
-        (entranceFee, interval, vrfCordinator, subscriptionId, gasLane, callbackGasLimit) =
-            helperConfig.activateNetworkConfig();
+        (
+            entranceFee,
+            interval,
+            vrfCordinator,
+            subscriptionId,
+            gasLane,
+            callbackGasLimit,
+            link
+        ) = helperConfig.activateNetworkConfig();
         vm.deal(Player, intialBalance); // giving eth to player
     }
 

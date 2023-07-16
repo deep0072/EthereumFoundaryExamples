@@ -18,7 +18,8 @@ contract RaffleContractDeployScript is Script {
             address vrfCordinator,
             uint64 subscriptionId,
             bytes32 gasLane,
-            uint32 callbackGasLimit
+            uint32 callbackGasLimit,
+            address link
         ) = helperConfig.activateNetworkConfig();
 
         if (subscriptionId == 0) {
