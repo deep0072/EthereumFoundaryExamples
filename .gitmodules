@@ -16,3 +16,6 @@
 [submodule "foundry-smartcontract-lottery/lib/solmate"]
 	path = foundry-smartcontract-lottery/lib/solmate
 	url = https://github.com/transmissions11/solmate
+[submodule "foundry-smartcontract-lottery/lib/foundry-devops"]
+	path = foundry-smartcontract-lottery/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops
