@@ -1,6 +1,6 @@
 pragma solidity ^0.8.19;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {Raffle} from "../../src/Raffle.sol";
 import {RaffleContractDeployScript} from "../../script/DeployRaffle.s.sol";
 import {HelperConfig} from "../../script/HelperConfig.s.sol";
@@ -89,9 +89,38 @@ contract RaffleTest is Test {
     ////////////////////////////////
     function testcheckUpkeepReturnsFalseIfItHasNoBalance() public {
         // first advance the time of block using vm.warp
+        // then check upKeep function
         vm.warp(block.timestamp + interval + 1);
 
-        (bool upKeppNeeded, ) = raffle.checkUpkeep("");
-        assert(!upKeppNeeded);
+        (bool upKeepNeeded, ) = raffle.checkUpkeep("");
+        assert(!upKeepNeeded);
     }
+
+    function testcheckUpkeepReturnsFalseIfRaffleNotOpen() public {
+        vm.prank(Player);
+        raffle.enterRaffle{value: 0.02 ether}();
+        vm.warp(block.timestamp + interval + 1);
+        vm.roll(block.number + 1);
+        raffle.performUpkeep("");
+        (bool upKeepNeeded, ) = raffle.checkUpkeep("");
+
+        assert(!upKeepNeeded);
+    }
+
+    function testcheckUpKeepReturnsFalseIfEnoughTimeHasNotPassed() public {
+        vm.prank(Player);
+        raffle.enterRaffle{value: 0.02 ether}();
+        (bool upKeepNeeded, ) = raffle.checkUpkeep("");
+        console.log(upKeepNeeded, "upKeepNeeded");
+        assert(!upKeepNeeded);
+    }
+
+    function testcheckUpKeepReturnsTrueIfParametersAreGood() public {
+        vm.prank(Player);
+        raffle.enterRaffle{value: 0.02 ether}();
+        vm.warp(block.timestamp + interval + 1);
+        (bool upKeepNeeded, ) = raffle.checkUpkeep("");
+        assert(upKeepNeeded == true);
+    }
+    
 }
