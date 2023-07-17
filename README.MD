@@ -124,3 +124,26 @@ cast call 0x354e3a1ebffbb055e797ea33883738baf49e4f05 "funcitonName" --rpc-url rp
 
 
 ### vm.txGasPrice(gasPrice); ==> it is used to set gasPrice. by default anvil set the gas price to zero.
+
+#### Tells the VM to start recording all the emitted events.
+```vm.recordLogs()``` 
+
+#### to access the recorded events or logs
+```vm.getRecordedLogs```
+
+here is the snippet how to access the recorded events
+
+```
+/// event LogCompleted(
+/// uint256 indexed topic1,
+/// bytes data
+/// );
+vm.recordLogs();
+emit LogCompleted(10, "operation completed");
+Vm.Log[] memory entries = vm.getRecordedLogs();
+assertEq(entries.length, 1);
+assertEq(entries[0].topics[0], keccak256("LogCompleted(uint256,bytes)"));
+assertEq(entries[0].topics[1], bytes32(uint256(10)));
+assertEq(abi.decode(entries[0].data, (string)), "operation completed");
+```
+ 
