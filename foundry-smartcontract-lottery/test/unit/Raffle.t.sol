@@ -4,6 +4,7 @@ import {Test, console} from "forge-std/Test.sol";
 import {Raffle} from "../../src/Raffle.sol";
 import {RaffleContractDeployScript} from "../../script/DeployRaffle.s.sol";
 import {HelperConfig} from "../../script/HelperConfig.s.sol";
+import {Vm} from "forge-std/Vm.sol";
 
 contract RaffleTest is Test {
     event EnteredRaffle(address indexed player);
@@ -122,5 +123,60 @@ contract RaffleTest is Test {
         (bool upKeepNeeded, ) = raffle.checkUpkeep("");
         assert(upKeepNeeded == true);
     }
-    
+
+    ////////////////////////////////
+    // test performUpKeep ////////////////
+    ////////////////////////////////
+
+    function testPerformUpKeepOnlyIfCheckUpKeepIsTrue() external {
+        vm.prank(Player);
+        raffle.enterRaffle{value: 0.02 ether}();
+        vm.warp(block.timestamp + interval + 1);
+        vm.roll(block.number + 1);
+        raffle.performUpkeep("");
+    }
+
+    function testPerformUpKeepRevertsOnlyIfCheckUpKeepIsFalse() public {
+        uint currentPlayers = 0;
+        uint currentBalance = 0;
+        uint currentState = 0;
+        vm.prank(Player);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                Raffle.Raffle_UpkeepNotNeeded.selector,
+                currentState,
+                currentBalance,
+                currentPlayers
+            )
+        );
+
+        raffle.performUpkeep("");
+    }
+
+    modifier raffleEntrance() {
+        vm.prank(Player);
+        raffle.enterRaffle{value: 0.03 ether}();
+        vm.warp(block.timestamp + interval + 1);
+        vm.roll(block.number + 1);
+        _;
+    }
+
+    function testPerformUpkeepUpdateRaffleStateAndEmitsRequestId()
+        public
+        raffleEntrance
+    {
+        vm.recordLogs(); // start to record events
+
+        raffle.performUpkeep(""); // event emitted as in return
+
+        Vm.Log[] memory entries = vm.getRecordedLogs(); // fetch the events
+
+        // entries[1] is denote the second emit by perfomUpKeep return first event is by i_vrfCordinator
+        bytes32 requestedId = entries[1].topics[1]; // logs stored in bytes32
+
+        assert(uint(requestedId) > 0);
+    }
 }
+
+//138143
