@@ -4,6 +4,8 @@ import {Test, console} from "forge-std/Test.sol";
 import {Raffle} from "../../src/Raffle.sol";
 import {RaffleContractDeployScript} from "../../script/DeployRaffle.s.sol";
 import {HelperConfig} from "../../script/HelperConfig.s.sol";
+
+import {VRFCoordinatorV2Mock} from "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
 import {Vm} from "forge-std/Vm.sol";
 
 contract RaffleTest is Test {
@@ -156,7 +158,7 @@ contract RaffleTest is Test {
 
     modifier raffleEntrance() {
         vm.prank(Player);
-        raffle.enterRaffle{value: 0.03 ether}();
+        raffle.enterRaffle{value: entranceFee}();
         vm.warp(block.timestamp + interval + 1);
         vm.roll(block.number + 1);
         _;
@@ -176,6 +178,74 @@ contract RaffleTest is Test {
         bytes32 requestedId = entries[1].topics[1]; // logs stored in bytes32
 
         assert(uint(requestedId) > 0);
+    }
+
+    ////////////////////////////////
+    // test fullFillRandomWord ////////////////
+    ////////////////////////////////
+
+    // radnomRequetId is params passed is exmaple of fuzzing test here
+    function testFulfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(
+        uint256 randomrequestId
+    ) public raffleEntrance {
+        // "nonexistent request" error given by vrfv2mock function fullfillRandomWord
+        vm.expectRevert("nonexistent request");
+
+        //since we are on local node so we are using v2mockfullfillrandomwords
+        VRFCoordinatorV2Mock(vrfCordinator).fulfillRandomWords(
+            randomrequestId,
+            address(raffle)
+        );
+    }
+
+    function testFullfillRandomWordsPicksWinnerResetsAndSendMoney()
+        public
+        raffleEntrance
+    {
+        // first create multiple participants
+        // and then give some money each address and call enter raffle function
+
+        uint256 startingIndex = 1;
+        uint256 additionalEntrance = 5;
+
+        for (
+            uint256 i = startingIndex;
+            i < startingIndex + additionalEntrance;
+            i++
+        ) {
+            address player = address(uint160(i));
+            hoax(player, intialBalance);
+
+            raffle.enterRaffle{value: entranceFee}();
+        }
+
+        uint256 totalPrize = entranceFee * (additionalEntrance + 1);
+
+        // now get random id from events start to record events
+        vm.recordLogs();
+        uint256 previousTimeStamp = block.timestamp;
+        raffle.performUpkeep("");
+        Vm.Log[] memory entries = vm.getRecordedLogs();
+        // entries[1] showing the 2ndevents fired form "raffle" contract and
+        // topics[1] ==> indexed params  in events which is reset id
+        bytes32 requestId = entries[1].topics[1];
+        VRFCoordinatorV2Mock(vrfCordinator).fulfillRandomWords(
+            uint256(requestId),
+            address(raffle)
+        );
+
+        // assert(uint256(raffle.getRaffleState()) == 0);
+        // assert(raffle.getRecentWinner() != address(0));
+        // assert(raffle.getPlayers() == 0);
+        // assert(previousTimeStamp < raffle.getLastTimeStamp());
+        console.log(intialBalance, "intialBalance");
+        console.log(entranceFee, "etnrance fee");
+        console.log(raffle.getRecentWinner().balance, "winner balance");
+        console.log(intialBalance + totalPrize - entranceFee, "net balance");
+        assert(
+            raffle.getRecentWinner().balance ==
+                (intialBalance + totalPrize) - entranceFee
+        );
     }
 }
 
