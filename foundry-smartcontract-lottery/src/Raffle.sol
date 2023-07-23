@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import {VRFConsumerBaseV2} from "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol";
 
 /*
  * @title Raffle
@@ -10,7 +11,7 @@ import {VRFConsumerBaseV2} from "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2
  * @notice this contract is for creating a sample raffle
  * @dev Implements chainlink vrfV2
  */
-contract Raffle is VRFConsumerBaseV2 {
+contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
     error Raffle_notEnoughEth();
     error Raffle__TransferFailed();
     error Raffle__RaffleNotOpen();
@@ -89,7 +90,12 @@ contract Raffle is VRFConsumerBaseV2 {
 
     function checkUpkeep(
         bytes memory /* checkData */
-    ) public view returns (bool upkeepNeeded, bytes memory /* performData */) {
+    )
+        public
+        view
+        override
+        returns (bool upkeepNeeded, bytes memory /* performData */)
+    {
         bool isOpen = s_raffleState == RaffleState.OPEN;
         bool timePassed = (block.timestamp - s_lastTimeStamp) > i_interval;
         bool hasBalance = address(this).balance > 0;
@@ -101,7 +107,7 @@ contract Raffle is VRFConsumerBaseV2 {
     // get random number
     // use the random number to pick a random winner
     // Be automatically called this pickWinner function
-    function performUpkeep(bytes calldata /* performData */) external {
+    function performUpkeep(bytes calldata /* performData */) external override {
         (bool upKeepNeeded, ) = checkUpkeep("");
 
         if (!upKeepNeeded) {

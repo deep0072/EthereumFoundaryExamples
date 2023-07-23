@@ -36,7 +36,8 @@ contract RaffleTest is Test {
             subscriptionId,
             gasLane,
             callbackGasLimit,
-            link
+            link,
+
         ) = helperConfig.activateNetworkConfig();
         vm.deal(Player, intialBalance); // giving eth to player
     }
@@ -184,10 +185,17 @@ contract RaffleTest is Test {
     // test fullFillRandomWord ////////////////
     ////////////////////////////////
 
+    modifier skipFork() {
+        if (block.chainid != 31337) {
+            return;
+        }
+        _;
+    }
+
     // radnomRequetId is params passed is exmaple of fuzzing test here
     function testFulfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(
         uint256 randomrequestId
-    ) public raffleEntrance {
+    ) public raffleEntrance skipFork {
         // "nonexistent request" error given by vrfv2mock function fullfillRandomWord
         vm.expectRevert("nonexistent request");
 
@@ -201,6 +209,7 @@ contract RaffleTest is Test {
     function testFullfillRandomWordsPicksWinnerResetsAndSendMoney()
         public
         raffleEntrance
+        skipFork
     {
         // first create multiple participants
         // and then give some money each address and call enter raffle function

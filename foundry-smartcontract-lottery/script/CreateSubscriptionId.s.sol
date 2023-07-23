@@ -22,14 +22,17 @@ contract CreateSubcriptonIdScript is Script {
     function createSubscriptionId() public returns (uint64) {
         HelperConfig helperConfig = new HelperConfig();
 
-        (, , address vrfCordinator, , , , ) = helperConfig
+        (, , address vrfCordinator, , , , , uint256 deployerKey) = helperConfig
             .activateNetworkConfig();
 
-        return createSubId(vrfCordinator);
+        return createSubId(vrfCordinator, deployerKey);
     }
 
-    function createSubId(address vrfCordinator) public returns (uint64) {
-        vm.startBroadcast();
+    function createSubId(
+        address vrfCordinator,
+        uint256 deployerKey
+    ) public returns (uint64) {
+        vm.startBroadcast(deployerKey);
         uint64 subId = VRFCoordinatorV2Mock(vrfCordinator).createSubscription();
         console.log("subscrition created: ", subId);
         vm.stopBroadcast();
@@ -63,19 +66,21 @@ contract FundSubscription is Script {
             uint64 subId,
             ,
             ,
-            address link
+            address link,
+            uint256 deployerKey
         ) = helperConfig.activateNetworkConfig();
 
-        fundSubscription(vrfCordinator, subId, link);
+        fundSubscription(vrfCordinator, subId, link, deployerKey);
     }
 
     function fundSubscription(
         address vrfCordinator,
         uint64 subId,
-        address link
+        address link,
+        uint256 deployerKey
     ) public {
         if (block.chainid == 31337) {
-            vm.startBroadcast();
+            vm.startBroadcast(deployerKey);
             VRFCoordinatorV2Mock(vrfCordinator).fundSubscription(
                 subId,
                 FUND_AMOUNT
@@ -107,22 +112,31 @@ contract AddConsumer is Script {
     function addConsumer(
         address vrfAddress,
         uint64 subId,
-        address raffle
+        address raffle,
+        uint256 deployerPrivateKey
     ) public {
         console.log("Adding consumer contract ", raffle);
         console.log("Using vrf cordinator ", vrfAddress);
         console.log("using subId ", subId);
-        vm.startBroadcast();
+        vm.startBroadcast(deployerPrivateKey);
         VRFCoordinatorV2Mock(vrfAddress).addConsumer(subId, raffle);
         vm.stopBroadcast();
     }
 
     function addConsumerUsingConfig(address raffle) public {
         HelperConfig helperConfig = new HelperConfig();
-        (, , address vrfCordinator, uint64 subId, , , ) = helperConfig
-            .activateNetworkConfig();
+        (
+            ,
+            ,
+            address vrfCordinator,
+            uint64 subId,
+            ,
+            ,
+            ,
+            uint256 deployerPrivateKey
+        ) = helperConfig.activateNetworkConfig();
 
-        addConsumer(vrfCordinator, subId, raffle);
+        addConsumer(vrfCordinator, subId, raffle, deployerPrivateKey);
     }
 
     function run() external {
