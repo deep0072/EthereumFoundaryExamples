@@ -1,0 +1,9 @@
+  {
+     "name": "My akash kutta",
+     "description": "This is my NFT",
+     "image": "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8?filename=pug.png",
+     "attributes": [
+       { "trait_type": "cute", "value": "number 1" },
+       { "trait_type": "adorable", "value": "akash" }
+     ]
+   }
