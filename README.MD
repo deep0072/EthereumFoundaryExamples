@@ -147,3 +147,10 @@ assertEq(entries[0].topics[1], bytes32(uint256(10)));
 assertEq(abi.decode(entries[0].data, (string)), "operation completed");
 ```
  
+## ffi ==> Foreign Function interface
+
+### if we set it true then it will allow us to execute other program from the contract itself. like we can execute linux commands and python programs
+
+```vm.ffi(linuxCommand)```
+
+### this will run linux command inside the solidity contract.
