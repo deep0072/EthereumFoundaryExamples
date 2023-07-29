@@ -11,7 +11,7 @@ contract BasicNftTest is Test {
     address private User = makeAddr("Deepak");
 
     string constant TOKEN_URI =
-        "https://ipfs.io/ipfs/QmXoKtmwDpH2htgWWcdfMWrdPFi5nfgt2xfYtS5Znrcq9k?filename=tokenUri.json";
+        "https://ipfs.io/ipfs/QmTkuG616j9BhjB9cvNrGJaJ7kkrHn1ZgjLH3zac5yKdE7?filename=tokenUri.json";
 
     function setUp() public {
         DeployNftScript deployNft = new DeployNftScript();
