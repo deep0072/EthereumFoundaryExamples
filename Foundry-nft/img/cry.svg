@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+  <circle cx="250" cy="250" r="200" fill="yellow" />
+  <circle cx="180" cy="180" r="30" fill="black" />
+  <circle cx="320" cy="180" r="30" fill="#e11616" />
+  <path d="M200 350 Q250 300 300 350" stroke="#000000" fill="none" />
+  <circle cx="180" cy="240" r="10" fill="blue" />
+  <circle cx="320" cy="240" r="10" fill="blue" />
+
+</svg>
+
+</body>
+</html>
