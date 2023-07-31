@@ -36,6 +36,9 @@ contract BasicNftTest is Test {
 
         basicNft.mintNft(TOKEN_URI);
         assert(basicNft.balanceOf(User) == 1);
+        // here we are tyring to compare string
+        // first we are converting string to bytes format and then
+        // converting intot hash foramt using keccak256 algo
         assert(
             keccak256(abi.encodePacked(TOKEN_URI)) ==
                 keccak256(abi.encodePacked(basicNft.tokenURI(0)))
