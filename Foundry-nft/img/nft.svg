@@ -1,11 +1,1 @@
-<!DOCTYPE html>
-<html>
-<head>
- 
-</head>
-<body>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500">
-        <text x="0" y="15" fill="red">hi this is svg nft </text>
-    </svg>
-</body>
-</html>
+<!DOCTYPE html><html><head></head><body><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><text x="0" y="15" fill="red">hi this is svg nft</text></svg></body></html>
