@@ -9,10 +9,8 @@ contract MintBasicNft is Script {
         "https://ipfs.io/ipfs/QmTkuG616j9BhjB9cvNrGJaJ7kkrHn1ZgjLH3zac5yKdE7?filename=tokenUri.json";
 
     function run() external {
-        address basicNftAddress = DevOpsTools.get_most_recent_deployment(
-            "BasicNft",
-            block.chainid
-        );
+        address basicNftAddress =
+            DevOpsTools.get_most_recent_deployment("BasicNft", block.chainid);
         mintNftOnContract(basicNftAddress);
     }
 

@@ -22,8 +22,8 @@ contract BasicNftTest is Test {
         string memory nameOfNft = basicNft.name();
         console.log(nameOfNft, "nameOfNft: ");
         assert(
-            keccak256(abi.encodePacked(nameOfNft)) ==
-                keccak256(abi.encodePacked("mark52"))
+            keccak256(abi.encodePacked(nameOfNft))
+                == keccak256(abi.encodePacked("mark52"))
         );
     }
 
@@ -40,8 +40,8 @@ contract BasicNftTest is Test {
         // first we are converting string to bytes format and then
         // converting intot hash foramt using keccak256 algo
         assert(
-            keccak256(abi.encodePacked(TOKEN_URI)) ==
-                keccak256(abi.encodePacked(basicNft.tokenURI(0)))
+            keccak256(abi.encodePacked(TOKEN_URI))
+                == keccak256(abi.encodePacked(basicNft.tokenURI(0)))
         );
     }
 }
