@@ -154,3 +154,8 @@ assertEq(abi.decode(entries[0].data, (string)), "operation completed");
 ```vm.ffi(linuxCommand)```
 
 ### this will run linux command inside the solidity contract.
+
+## vm.readFile(pathOfFile)
+### this cheatcode is used to read file from other directory. Reads the entire content of file to string.
+### By default, filesystem access is disallowed and requires the fs_permission setting in
+foundry.toml .  ```fs_permissions = [{ access = "read", path = "path of file we want to read"}]```
