@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.19;
+
 import {Test, console} from "forge-std/Test.sol";
 import {MoodNftDeployScript} from "../script/DeployMoodNft.s.sol";
 
 /*
- * @title MoodNft
+ * @title MoodNftDeployScript
  * @author Deepak
- * @notice this contract create mood nft
- * @dev Implements openzappelin library
+ * @notice this contract deploy mood nft
+ * @dev Implements forge script
  */
 contract DeployMoodNftScriptTest is Test {
     MoodNftDeployScript moodNftDeployScript;
@@ -19,10 +20,10 @@ contract DeployMoodNftScriptTest is Test {
 
     function testImageUri() public view {
         string
-            memory expectedImageUri = "data:image/svg+xml;base64,PCFET0NUWVBFIGh0bWw+PGh0bWw+PGhlYWQ+PC9oZWFkPjxib2R5PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjUwMCIgaGVpZ2h0PSI1MDAiPjx0ZXh0IHg9IjAiIHk9IjE1IiBmaWxsPSJyZWQiPmhpIHRoaXMgaXMgc3ZnIG5mdDwvdGV4dD48L3N2Zz48L2JvZHk+PC9odG1sPg==";
+            memory expectedImageUri = "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgd2lkdGg9IjQwMCIgIGhlaWdodD0iNDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIGZpbGw9InllbGxvdyIgcj0iNzgiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPg0KICA8ZyBjbGFzcz0iZXllcyI+DQogICAgPGNpcmNsZSBjeD0iNjEiIGN5PSI4MiIgcj0iMTIiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMjciIGN5PSI4MiIgcj0iMTIiLz4NCiAgPC9nPg0KICA8cGF0aCBkPSJtMTM2LjgxIDExNi41M2MuNjkgMjYuMTctNjQuMTEgNDItODEuNTItLjczIiBzdHlsZT0iZmlsbDpub25lOyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDM7Ii8+DQo8L3N2Zz4=";
 
-        string
-            memory svgImage = '<!DOCTYPE html><html><head></head><body><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><text x="0" y="15" fill="red">hi this is svg nft</text></svg></body></html>';
+        string memory svgImage = vm.readFile("./img/HAPPY.svg");
+        // '<!DOCTYPE html><html><head></head><body><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500"><text x="0" y="15" fill="red">hi this is svg nft</text></svg></body></html>';
 
         string memory actualImageUri = moodNftDeployScript.svgToImageUri(
             svgImage

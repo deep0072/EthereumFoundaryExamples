@@ -3,8 +3,8 @@ pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
 
-import {DeployNftScript} from "../script/DeployNft.s.sol";
-import {BasicNft} from "../src/BasicNft.sol";
+import {DeployNftScript} from "../../script/DeployNft.s.sol";
+import {BasicNft} from "../../src/BasicNft.sol";
 
 contract BasicNftTest is Test {
     BasicNft basicNft;
@@ -21,10 +21,7 @@ contract BasicNftTest is Test {
     function testNameIsCorrect() public view {
         string memory nameOfNft = basicNft.name();
         console.log(nameOfNft, "nameOfNft: ");
-        assert(
-            keccak256(abi.encodePacked(nameOfNft))
-                == keccak256(abi.encodePacked("mark52"))
-        );
+        assert(keccak256(abi.encodePacked(nameOfNft)) == keccak256(abi.encodePacked("mark52")));
     }
 
     function testCanMintAndHaveBalance() public {
@@ -39,9 +36,6 @@ contract BasicNftTest is Test {
         // here we are tyring to compare string
         // first we are converting string to bytes format and then
         // converting intot hash foramt using keccak256 algo
-        assert(
-            keccak256(abi.encodePacked(TOKEN_URI))
-                == keccak256(abi.encodePacked(basicNft.tokenURI(0)))
-        );
+        assert(keccak256(abi.encodePacked(TOKEN_URI)) == keccak256(abi.encodePacked(basicNft.tokenURI(0))));
     }
 }
