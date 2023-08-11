@@ -34,3 +34,9 @@
 [submodule "Foundry-nft/lib/foundry-devops"]
 	path = Foundry-nft/lib/foundry-devops
 	url = https://github.com/cyfrin/foundry-devops
+[submodule "Foundry-Stable-Coin/lib/forge-std"]
+	path = Foundry-Stable-Coin/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Foundry-Stable-Coin/lib/openzeppelin-contracts"]
+	path = Foundry-Stable-Coin/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
