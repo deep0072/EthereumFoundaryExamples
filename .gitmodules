@@ -40,3 +40,6 @@
 [submodule "Foundry-Stable-Coin/lib/openzeppelin-contracts"]
 	path = Foundry-Stable-Coin/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Foundry-Stable-Coin/lib/chainlink-brownie-contracts"]
+	path = Foundry-Stable-Coin/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
