@@ -32,7 +32,7 @@ contract DecentralisedStableCoin is ERC20Burnable, Ownable {
             revert DecentralisedStableCoin__notEnoughBalance();
         }
 
-        super.burn(msg.sender, _amount); // super is used for to access the parent function that is "burn"
+        super.burn(_amount); // super is used for to access the parent function that is "burn"
     }
 
     function mint(
