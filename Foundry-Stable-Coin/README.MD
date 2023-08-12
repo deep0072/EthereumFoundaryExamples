@@ -18,5 +18,8 @@
 
 ```function liquidate() ==> lets understand this with example. lets say i deposit $100 eth and get stable coin $50. there is threshold of collateral %150 ($75) value of stable coin i have. if collateral value below the $75 then the collateral i have will be bought by someone by paying $50 so this is the liquidation. so we need to maintain the collateral value more than the threshold.```
 
-``` function _checkHealthFactor() ==> this function first calculate the some portion of collateral in usd portion or percentage is set by the liquidation threshhold and then we calculate the health factor.  
+``` function _checkHealthFactor() ==> this function first calculate the some portion of collateral in usd portion or percentage is set by the liquidation threshhold and then we calculate the health factor.```
+
+
+
 
