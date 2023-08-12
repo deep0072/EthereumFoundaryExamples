@@ -23,7 +23,7 @@
 <br>
 <br>
 
-``` function _checkHealthFactor() ==> this function first calculate the some portion of collateral in usd portion or percentage is set by the liquidation threshhold and then we calculate the health factor.```
+5 function _checkHealthFactor() ==> this function first calculates the some portion of collateral in usd portion or percentage is set by the liquidation threshhold and then we calculate the health factor
 
 
 
