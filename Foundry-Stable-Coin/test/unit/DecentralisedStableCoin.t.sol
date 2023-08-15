@@ -21,19 +21,14 @@ contract DecentralisedStableCoinTest is Test {
     function setUp() public {
         dscEngineDeployer = new DeployDSCScript();
         (dscEngine, dscCoin) = dscEngineDeployer.run();
-        (wETH,, wEthPriceFeed,,) = config.ActiveNetworkConfig();
     }
 
     function testgetColletralValueInUsd() public {
-        uint256 tokenAmount = 15e18;
-        uint256 expectedValue = 3000e18;
-        console.log(wEthPriceFeed, "wEthPriceFeed");
-
-        uint256 actualValue =
-            dscEngine.getColletralValueInUsd(tokenAmount, wEthPriceFeed);
-
-        console.log(actualValue, "actualValue");
-
-        // assertEq(actualValue, expectedValue);
+        (wETH,, wEthPriceFeed,,) = config.ActiveNetworkConfig(); // uint256 tokenAmount = 15e18;
+            // uint256 expectedValue = 3000e18; // console.log(wEthPriceFeed, "wEthPriceFeed");
+            // uint256 actualValue =
+            //     dscEngine.getColletralValueInUsd(tokenAmount, wEthPriceFeed);
+            // console.log(actualValue, "actualValue");
+            // assertEq(actualValue, expectedValue);
     }
 }

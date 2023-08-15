@@ -32,18 +32,13 @@ contract HelperConfig is Script {
         }
     }
 
-    function sepoliaChainEthConfig()
-        public
-        view
-        returns (NetworkConfig memory)
-    {
+    function sepoliaChainEthConfig() public view returns (NetworkConfig memory) {
         NetworkConfig memory activeNetworkConfig = NetworkConfig({
             wETH: 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,
             wBTC: 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599,
             wEthPriceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306,
             wBtcPriceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306,
-            deployerKey: vm
-                .envUint("PRIVATE_KEY")
+            deployerKey: vm.envUint("PRIVATE_KEY")
         });
 
         return activeNetworkConfig;
@@ -59,31 +54,20 @@ contract HelperConfig is Script {
         */
 
         vm.startBroadcast();
-        MockV3Aggregator wethPriceFeed =
-            new MockV3Aggregator(DECIMALS,ETH_USD_PRICE);
+        MockV3Aggregator wethPriceFeed = new MockV3Aggregator(DECIMALS,ETH_USD_PRICE);
         ERC20Mock wethMock = new ERC20Mock("WETH","WETH",msg.sender, 1000e8);
 
-        MockV3Aggregator wbtcPriceFeed =
-            new MockV3Aggregator(DECIMALS,BTC_USD_PRICE);
+        MockV3Aggregator wbtcPriceFeed = new MockV3Aggregator(DECIMALS,BTC_USD_PRICE);
         ERC20Mock wbtcMock = new ERC20Mock("WBTC", "WBTC",msg.sender, 1000e8);
 
         vm.stopBroadcast();
 
         NetworkConfig memory activeNetworkConfig = NetworkConfig({
-            wETH: address(
-                wethMock
-                ),
-            wBTC: address(
-                wbtcMock
-                ),
-            wEthPriceFeed: address(
-                wethPriceFeed
-                ),
-            wBtcPriceFeed: address(
-                wbtcPriceFeed
-                ),
-            deployerKey: vm
-                .envUint("ANVIL_PRIVATE_KEY")
+            wETH: address(wethMock),
+            wBTC: address(wbtcMock),
+            wEthPriceFeed: address(wethPriceFeed),
+            wBtcPriceFeed: address(wbtcPriceFeed),
+            deployerKey: vm.envUint("ANVIL_PRIVATE_KEY")
         });
 
         return activeNetworkConfig;
