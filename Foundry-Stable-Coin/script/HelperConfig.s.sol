@@ -23,6 +23,7 @@ contract HelperConfig is Script {
     uint8 constant DECIMALS = 8;
     int256 constant ETH_USD_PRICE = 2000e8;
     int256 constant BTC_USD_PRICE = 1000e8;
+    uint256 public DEFAULT_ANVIL_PRIVATE_KEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
 
     constructor() {
         if (block.chainid == 11155111) {
@@ -67,7 +68,7 @@ contract HelperConfig is Script {
             wBTC: address(wbtcMock),
             wEthPriceFeed: address(wethPriceFeed),
             wBtcPriceFeed: address(wbtcPriceFeed),
-            deployerKey: vm.envUint("ANVIL_PRIVATE_KEY")
+            deployerKey: DEFAULT_ANVIL_PRIVATE_KEY
         });
 
         return activeNetworkConfig;
