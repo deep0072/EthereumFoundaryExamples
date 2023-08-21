@@ -159,3 +159,17 @@ assertEq(abi.decode(entries[0].data, (string)), "operation completed");
 ### this cheatcode is used to read file from other directory. Reads the entire content of file to string.
 ### By default, filesystem access is disallowed and requires the fs_permission setting in
 foundry.toml .  ```fs_permissions = [{ access = "read", path = "path of file we want to read"}]```
+
+
+# Fuzz testing
+
+### in this testing when we try to  randomaly thorugh  data to a perticular function to break its functionality. 
+
+### fuzz testing divinded in to two types:
+    1. stateless testing 
+    2. stateful testing
+### first lets understand Invariants ==> Invariants are those property of system that must hold at any condition.
+
+## stateLess Fuzzing ==> where the state of previous run is discarded for every new run.means give random input to one  function
+## stateFull Fuzzing ==> where the state of previous run is not  for every new run.means give random data and random function calls to many  function. this is called Inveraint testing also. 
+
