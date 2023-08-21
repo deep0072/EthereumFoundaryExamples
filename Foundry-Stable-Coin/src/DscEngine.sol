@@ -77,7 +77,7 @@ contract DscEngine is ReentrancyGuard {
     mapping(address user => uint256 dscMinted) private s_DSCminted;
     uint256 private constant LIQUIDATION_THRESHHOLD = 50;
     uint256 private constant LIQUIDATION_PRECISION = 100;
-    uint256 private constant MIN_HEALTH_FACTOR = 1;
+    uint256 private constant MIN_HEALTH_FACTOR = 1e18;
     uint256 private constant LIQUIDATION_BONUS = 10;
 
     //////////////////
@@ -246,7 +246,7 @@ contract DscEngine is ReentrancyGuard {
         moreThanZero(debtToCOver)
         nonReentrant
     {
-        uint256 startingHealthFactor = _checkHealthFactor(User);
+        uint256 startingHealthFactor = _checkUserHealthFactor(User);
         // need to check health factor first
 
         if (startingHealthFactor >= 1) {
@@ -274,7 +274,7 @@ contract DscEngine is ReentrancyGuard {
         // then burn the debttoRecover
         _burnDsc(tokenAmountFromDebtToRecover, User, msg.sender);
 
-        uint256 endingHealthFactor = _checkHealthFactor(User);
+        uint256 endingHealthFactor = _checkUserHealthFactor(User);
 
         // then check healthFactor and
 
@@ -285,7 +285,7 @@ contract DscEngine is ReentrancyGuard {
         _revertHealtFactorIsBroken(msg.sender);
     }
 
-    function getHealtFactor() external view {}
+    
     ////////////////////////////////////////////
     ///Internal and Private view functions//////
     ////////////////////////////////////////////
@@ -313,8 +313,8 @@ contract DscEngine is ReentrancyGuard {
     }
 
     function _revertHealtFactorIsBroken(address user) internal view {
-        uint256 userHealthFactor = _checkHealthFactor(user);
-        if (userHealthFactor < MIN_HEALTH_FACTOR) {
+        uint256 userHealthFactor = _checkUserHealthFactor(user);
+        if (userHealthFactor <= MIN_HEALTH_FACTOR) {
             revert DscEngine__userHeathFactorIsBroken(userHealthFactor);
         }
 
@@ -327,13 +327,29 @@ contract DscEngine is ReentrancyGuard {
     
     
     */
-    function _checkHealthFactor(address user) private view returns (uint256) {
+
+    function _calculateHealthFactor(uint256 mintedDscCoin, uint256 collateralValueInUsd)
+        internal
+        pure
+        returns (uint256)
+    {
+        
+        if (mintedDscCoin < 0){
+            return type(uint256).max;
+        }
+        uint256 collateralAdjustedForThreshHold =
+            (collateralValueInUsd * LIQUIDATION_THRESHHOLD) / LIQUIDATION_PRECISION; // get actual amount of collateral with threshold value
+       
+      
+
+        return (collateralAdjustedForThreshHold * PRECISION) / mintedDscCoin; // here we are calcualatin health factor
+    }
+
+    function _checkUserHealthFactor(address user) private view returns (uint256) {
         // call function  which return mintedDSC and collateral value in usd
         (uint256 mintedDSC, uint256 collateralValueInusd) = _getAcountInfo(user);
-        uint256 collateralAdjustedForThreshHold =
-            (collateralValueInusd * LIQUIDATION_THRESHHOLD) / LIQUIDATION_PRECISION; // get actual amount of collateral with threshold value
 
-        return (collateralAdjustedForThreshHold * PRECISION) / mintedDSC; // here we are calcualatin health factor
+        return _calculateHealthFactor(mintedDSC, collateralValueInusd);
     }
 
     function _getAcountInfo(address user) internal view returns (uint256 mintedDsc, uint256 collateralValueInUsd) {
@@ -346,6 +362,15 @@ contract DscEngine is ReentrancyGuard {
     //////////////////////////////////////
     ///public and External view functions/////
     //////////////////////////////////////
+
+    function calculateHealthFactor(uint256 mintedCoin, uint256 collateralValueInUsd) public pure returns (uint256) {
+        return _calculateHealthFactor(mintedCoin, collateralValueInUsd);
+    }
+
+    function checkUserHealthFactor(address user) external view returns (uint256) {
+       
+        return _checkUserHealthFactor(user);
+    }
 
     function getAccountCollateralValue(address _user) public view returns (uint256 totalCollateralValue) {
         // first loop through the collateral TokenAddress
@@ -384,5 +409,43 @@ contract DscEngine is ReentrancyGuard {
     function getAccountInfo(address user) public view returns (uint256 mintedDsc, uint256 collateralValueInUsd) {
         (mintedDsc, collateralValueInUsd) = _getAcountInfo(user);
         return (mintedDsc, collateralValueInUsd);
+    }
+
+    function getPrecision() public view returns (uint256) {
+        return PRECISION;
+    }
+
+    function getAdditionalFeedPrecision() public view returns (uint256) {
+        return ADDITIONAL_PRECISION_FEED;
+    }
+
+    function getLiquidationBonus() public view returns (uint256) {
+        return LIQUIDATION_BONUS;
+    }
+
+     function getCollateralTokenPriceFeed(address token) external view returns (address) {
+        return s_priceFeed[token];
+    }
+
+    function getCollateralTokens() public view returns(address[] memory){
+        return s_collateralTokens;
+    }
+
+    function getMinHealthFactor() public view returns(uint256){
+        return MIN_HEALTH_FACTOR;
+    }
+
+    function getLiquidationThreshold() public view returns(uint256){
+        return LIQUIDATION_THRESHHOLD;
+
+    }
+
+    function getCollateralBalanceOfUser(address user, address collateralAddress) public view returns(uint256){
+        s_collateralDeposited[user][collateralAddress];
+
+    }
+
+    function getDsc() public view returns(address){
+        return address(i_dsc);
     }
 }
