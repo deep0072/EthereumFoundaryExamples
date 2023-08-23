@@ -12,6 +12,7 @@ contract HandlerContract is Test {
     DscEngine dscEngine;
     ERC20Mock wETH;
     ERC20Mock wBTC;
+    uint256 constant MAX_DEPOSIT_SIZE = type(uint96).max;
 
     constructor(DecentralisedStableCoin _dscCoin, DscEngine _dscEngine) {
         dscCoin = _dscCoin;
@@ -22,19 +23,18 @@ contract HandlerContract is Test {
         wBTC = ERC20Mock(collaterals[1]);
     }
 
-    function depositCollateral(uint256 collateralSeed, uint256 collateralAmount)
-        external
-    {
+    function depositCollateral(uint256 collateralSeed, uint256 collateralAmount) external {
         // collateralSeed ==> is the random number which let us chose the different collateral seed
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
+        collateralAmount = bound(collateralAmount, 1, MAX_DEPOSIT_SIZE); // bound is inbuild function of forge to set uint to min .max
+        vm.startPrank(msg.sender);
+        collateral.mint(msg.sender, collateralAmount);
+        collateral.approve(address(dscEngine), collateralAmount);
         dscEngine.depositCollateral(address(collateral), collateralAmount);
+        vm.stopPrank();
     }
 
-    function _getCollateralFromSeed(uint256 collateralSeed)
-        private
-        view
-        returns (ERC20Mock)
-    {
+    function _getCollateralFromSeed(uint256 collateralSeed) private view returns (ERC20Mock) {
         // if random number is even then return weth address other wise wBTC
         if (collateralSeed % 2 == 0) {
             return wETH;
