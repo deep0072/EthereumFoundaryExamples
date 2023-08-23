@@ -14,6 +14,7 @@ import {DeployDSCScript} from "../../script/DeployDSC.s.sol";
 import {HelperConfig} from "../../script/HelperConfig.s.sol";
 import {DecentralisedStableCoin} from "../../src/DecentralisedStableCoin.sol";
 import {DscEngine} from "../../src/DscEngine.sol";
+import {HandlerContract} from "./Handler.t.sol";
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 
 contract InvariantTest is StdInvariant, Test {
@@ -21,17 +22,20 @@ contract InvariantTest is StdInvariant, Test {
     DecentralisedStableCoin dscCoin;
     HelperConfig helperConfig;
     DscEngine dscEngine;
+    HandlerContract handlerContract;
     address wETH;
     address wBTC;
 
     function setUp() external {
         deployerDsc = new DeployDSCScript();
         (dscEngine, dscCoin, helperConfig) = deployerDsc.run();
-        targetContract(address(dscEngine));
         (wETH, wBTC,,,) = helperConfig.ActiveNetworkConfig();
+        handlerContract = new HandlerContract(dscCoin, dscEngine);
+        // targetContract(address(dscEngine));
+        targetContract(address(handlerContract));
     }
 
-    function invariant_protocolMustHaveMpreValueThanTotalSupply() external {
+    function invariant_protocolMustHaveMoreValueThanTotalSupply() external {
         // first get total supply
         // get the total weth and wBTC deposited
         // ans then get value in usd of both weth and wBTC
@@ -43,10 +47,9 @@ contract InvariantTest is StdInvariant, Test {
             dscEngine.getColletralValueInUsd(totalWeth, wETH);
         uint256 wBtcValueInUsd =
             dscEngine.getColletralValueInUsd(totalWbtc, wBTC);
-        console.log(totalSupply, "totalSupply");
 
         uint256 totalCollateralValue = wethValueInUsd + wBtcValueInUsd;
-        console.log(totalCollateralValue, "totalCollateralValue");
+
         assert(totalCollateralValue >= totalSupply);
     }
 }

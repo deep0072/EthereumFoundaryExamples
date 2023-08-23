@@ -285,7 +285,6 @@ contract DscEngine is ReentrancyGuard {
         _revertHealtFactorIsBroken(msg.sender);
     }
 
-    
     ////////////////////////////////////////////
     ///Internal and Private view functions//////
     ////////////////////////////////////////////
@@ -333,14 +332,11 @@ contract DscEngine is ReentrancyGuard {
         pure
         returns (uint256)
     {
-        
-        if (mintedDscCoin < 0){
+        if (mintedDscCoin < 0) {
             return type(uint256).max;
         }
         uint256 collateralAdjustedForThreshHold =
             (collateralValueInUsd * LIQUIDATION_THRESHHOLD) / LIQUIDATION_PRECISION; // get actual amount of collateral with threshold value
-       
-      
 
         return (collateralAdjustedForThreshHold * PRECISION) / mintedDscCoin; // here we are calcualatin health factor
     }
@@ -368,7 +364,6 @@ contract DscEngine is ReentrancyGuard {
     }
 
     function checkUserHealthFactor(address user) external view returns (uint256) {
-       
         return _checkUserHealthFactor(user);
     }
 
@@ -423,29 +418,27 @@ contract DscEngine is ReentrancyGuard {
         return LIQUIDATION_BONUS;
     }
 
-     function getCollateralTokenPriceFeed(address token) external view returns (address) {
+    function getCollateralTokenPriceFeed(address token) external view returns (address) {
         return s_priceFeed[token];
     }
 
-    function getCollateralTokens() public view returns(address[] memory){
+    function getCollateralTokens() public view returns (address[] memory) {
         return s_collateralTokens;
     }
 
-    function getMinHealthFactor() public view returns(uint256){
+    function getMinHealthFactor() public view returns (uint256) {
         return MIN_HEALTH_FACTOR;
     }
 
-    function getLiquidationThreshold() public view returns(uint256){
+    function getLiquidationThreshold() public view returns (uint256) {
         return LIQUIDATION_THRESHHOLD;
-
     }
 
-    function getCollateralBalanceOfUser(address user, address collateralAddress) public view returns(uint256){
-        s_collateralDeposited[user][collateralAddress];
-
+    function getCollateralBalanceOfUser(address user, address collateralAddress) public view returns (uint256) {
+        return s_collateralDeposited[user][collateralAddress];
     }
 
-    function getDsc() public view returns(address){
+    function getDsc() public view returns (address) {
         return address(i_dsc);
     }
 }

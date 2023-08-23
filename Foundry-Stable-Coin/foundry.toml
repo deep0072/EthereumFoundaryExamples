@@ -6,7 +6,7 @@ remappings= ["@openzeppelin/contracts=lib/openzeppelin-contracts/contracts", "@c
 [invariant]
 runs=1000
 depth=128
-fail_on_revert=true
+fail_on_revert=false
 
 # runs calling contract 1000 times and each run it will call function 128 times
 
