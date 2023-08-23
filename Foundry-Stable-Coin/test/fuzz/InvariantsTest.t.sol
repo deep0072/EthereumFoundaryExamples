@@ -43,10 +43,8 @@ contract InvariantTest is StdInvariant, Test {
         uint256 totalSupply = dscCoin.totalSupply();
         uint256 totalWeth = IERC20(wETH).balanceOf(address(dscEngine));
         uint256 totalWbtc = IERC20(wBTC).balanceOf(address(dscEngine));
-        uint256 wethValueInUsd =
-            dscEngine.getColletralValueInUsd(totalWeth, wETH);
-        uint256 wBtcValueInUsd =
-            dscEngine.getColletralValueInUsd(totalWbtc, wBTC);
+        uint256 wethValueInUsd = dscEngine.getColletralValueInUsd(totalWeth, wETH);
+        uint256 wBtcValueInUsd = dscEngine.getColletralValueInUsd(totalWbtc, wBTC);
 
         uint256 totalCollateralValue = wethValueInUsd + wBtcValueInUsd;
         console.log(totalWeth, "totalWeth");

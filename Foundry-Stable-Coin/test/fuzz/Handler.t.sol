@@ -25,13 +25,10 @@ contract HandlerContract is Test {
         address[] memory collaterals = dscEngine.getCollateralTokens();
         wETH = ERC20Mock(collaterals[0]);
         wBTC = ERC20Mock(collaterals[1]);
-        ethUsdPriceFeed =
-            MockV3Aggregator(dscEngine.getCollateralTokenPriceFeed(address(wETH)));
+        ethUsdPriceFeed = MockV3Aggregator(dscEngine.getCollateralTokenPriceFeed(address(wETH)));
     }
 
-    function depositCollateral(uint256 collateralSeed, uint256 collateralAmount)
-        external
-    {
+    function depositCollateral(uint256 collateralSeed, uint256 collateralAmount) external {
         // collateralSeed ==> is the random number which let us chose the different collateral seed
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
         collateralAmount = bound(collateralAmount, 1, MAX_DEPOSIT_SIZE); // bound is inbuild function of forge to set uint to min .max
@@ -44,29 +41,21 @@ contract HandlerContract is Test {
         addressOfDepositers.push(msg.sender);
     }
 
-    function redeemCollatera(uint256 collateralSeed, uint256 collateralAmount)
-        external
-    {
+    function redeemCollatera(uint256 collateralSeed, uint256 collateralAmount) external {
         ERC20Mock collateral = _getCollateralFromSeed(collateralSeed);
-        uint256 maxCollateralToRedeem =
-            dscEngine.getCollateralBalanceOfUser(msg.sender, address(collateral));
+        uint256 maxCollateralToRedeem = dscEngine.getCollateralBalanceOfUser(msg.sender, address(collateral));
         collateralAmount = bound(collateralAmount, 0, maxCollateralToRedeem);
 
         if (collateralAmount == 0) return;
         dscEngine.redeemCollateral(collateralAmount, address(collateral));
     }
 
-    function mintDscCoin(uint256 mintAmount, uint256 addressSeeders)
-        external
-    {
+    function mintDscCoin(uint256 mintAmount, uint256 addressSeeders) external {
         if (addressOfDepositers.length == 0) return;
-        address sender =
-            addressOfDepositers[addressSeeders % addressOfDepositers.length];
-        (uint256 totalDscMinted, uint256 totalCollateralValueInusd) =
-            dscEngine.getAccountInfo(sender);
+        address sender = addressOfDepositers[addressSeeders % addressOfDepositers.length];
+        (uint256 totalDscMinted, uint256 totalCollateralValueInusd) = dscEngine.getAccountInfo(sender);
 
-        int256 maxMintedDsc =
-            (int256(totalCollateralValueInusd) / 2) - int256(totalDscMinted);
+        int256 maxMintedDsc = (int256(totalCollateralValueInusd) / 2) - int256(totalDscMinted);
         if (maxMintedDsc < 0) {
             return;
         }
@@ -87,11 +76,7 @@ contract HandlerContract is Test {
     //     ethUsdPriceFeed.updateAnswer(newPriceInt);
     // }
 
-    function _getCollateralFromSeed(uint256 collateralSeed)
-        private
-        view
-        returns (ERC20Mock)
-    {
+    function _getCollateralFromSeed(uint256 collateralSeed) private view returns (ERC20Mock) {
         // if random number is even then return weth address otherwise wBTC address
         if (collateralSeed % 2 == 0) {
             return wETH;

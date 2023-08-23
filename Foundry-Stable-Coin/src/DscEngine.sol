@@ -30,6 +30,8 @@ import {DecentralisedStableCoin} from "./DecentralisedStableCoin.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+import {OracleLib} from "./library/OracleLib.sol";
+
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 /**
@@ -60,6 +62,15 @@ contract DscEngine is ReentrancyGuard {
     error DscEngine__mintingFailed();
     error DscEngine__HealthFactorIsOk();
     error DscEngine__HealthFactorIsNotImproved();
+
+    //////////////////
+    /// types /////
+    /////////////////
+
+    // this library first check collateral price is changing periodically within any time given,
+    // if not then DscEngine will revert the process
+
+    using OracleLib for AggregatorV3Interface;
 
     //////////////////
     ///state variable/////
@@ -392,7 +403,7 @@ contract DscEngine is ReentrancyGuard {
 
     function getColletralValueInUsd(uint256 tokenAmount, address tokenAddress) public view returns (uint256) {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(s_priceFeed[tokenAddress]);
-        (, int256 price,,,) = priceFeed.latestRoundData(); // return value price * 1e8
+        (, int256 price,,,) = priceFeed.stalePriceCheck(); // return value price * 1e8
         // 1 ETH = 1000 USD
         // The returned value from Chainlink will be 1000 * 1e8
         // Most USD pairs have 8 decimals, so we will just pretend they all do
