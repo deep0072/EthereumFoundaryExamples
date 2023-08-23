@@ -49,7 +49,22 @@ contract InvariantTest is StdInvariant, Test {
             dscEngine.getColletralValueInUsd(totalWbtc, wBTC);
 
         uint256 totalCollateralValue = wethValueInUsd + wBtcValueInUsd;
+        console.log(totalWeth, "totalWeth");
+        console.log(totalWbtc, "totalWbtc");
+        console.log(wethValueInUsd, "wethValueInUsd");
+        console.log(wBtcValueInUsd, "totawBtcValueInUsdlWeth");
+        console.log("mintedtime:", handlerContract.minteDSc());
 
         assert(totalCollateralValue >= totalSupply);
+    }
+
+    function invariant_getterFunctionShouldNotRevert() external {
+        dscEngine.getCollateralTokens();
+        dscEngine.getAdditionalFeedPrecision();
+
+        dscEngine.getLiquidationBonus();
+        dscEngine.getLiquidationThreshold();
+        dscEngine.getMinHealthFactor();
+        dscEngine.getPrecision();
     }
 }
