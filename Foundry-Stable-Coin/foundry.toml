@@ -3,5 +3,11 @@ src = "src"
 out = "out"
 libs = ["lib"]
 remappings= ["@openzeppelin/contracts=lib/openzeppelin-contracts/contracts", "@chainlink/contracts=lib/chainlink-brownie-contracts/contracts"]
+[invariant]
+runs=1000
+depth=128
+fail_on_revert=true
+
+# runs calling contract 1000 times and each run it will call function 128 times
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
