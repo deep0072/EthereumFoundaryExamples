@@ -173,3 +173,10 @@ foundry.toml .  ```fs_permissions = [{ access = "read", path = "path of file we 
 ## stateLess Fuzzing ==> where the state of previous run is discarded for every new run.means give random input to one  function
 ## stateFull Fuzzing ==> where the state of previous run is not  for every new run.means give random data and random function calls to many  function. this is called Inveraint testing also. 
 
+
+# forge inspect "ContractName" methods
+
+it will list out all methods name with their function selector mentioned in contract itself
+
+``` forge inspect DscEngine methods```
+![snapeshort](image.png)
