@@ -8,8 +8,8 @@ import {AggregatorV3Interface} from
 
 * @title OracleLib
 * @author Deepak 
-* @notice this library is used to check the Chainlink Oracle for stale data (means that data which doesn't changes for perticaluar time of period)
-* We want  DscEngine to Freeze price become stale
+* @notice this library is used to check the Chainlink Oracle for stale data (means that data which doesn't changes for perticular time of period)
+* We want  DscEngine to Freeze when price become stale
 
 
  */
